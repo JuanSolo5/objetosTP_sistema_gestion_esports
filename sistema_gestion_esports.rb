@@ -19,5 +19,5 @@ end
 pepe = Persona.new("pepe", 2, "holacomoandas","bombero")
 
 puts(pepe)
-
+puts "estoy escribiendo"
 
