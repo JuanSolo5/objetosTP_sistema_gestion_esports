@@ -21,3 +21,13 @@ pepe = Persona.new("pepe", 2, "holacomoandas","bombero")
 puts(pepe)
 puts "estoy escribiendo"
 
+def generar_partidos(equipos) #ESTO VA DESPUES PARA GENERAR LOS PARTIDOS
+  partidos = []
+  n = equipos.length
+  (0...n).each do |i|
+    ((i + 1)...n).each do |j|
+      partidos << [equipos[i], equipos[j]]
+    end
+  end
+  partidos
+end
