@@ -64,11 +64,15 @@ class Entrenador < Persona
         jugador.rango = "Oro"
       end
     else
-      puts "El jugador no juega en este equipo o el DT no está asociado al equipo"
+      if(!equipo.listaJugadores.include?(jugador))
+        puts "El jugador no juega en este equipo: #{equipo.nombreEquipo}"
+      else
+        puts("El DT no está asociado al equipo de: #{equipo.nombreEquipo}")
+      end
       return
     end
     
-    puts "La mejora fue realizada al jugador: #{jugador.nombre} del equipo: #{equipo.nombreEquipo}"
+    puts ("La mejora fue realizada al jugador: #{jugador.nombre} del equipo: #{equipo.nombreEquipo}")
   end
 end
 
@@ -122,5 +126,5 @@ if __FILE__ == $PROGRAM_NAME
   river.agregarPersona(marioDT)
   boca.agregarPersona(joseDt)
   marioDT.mejorarHabilidades(pepe, river) # DT Mario mejora a Pepe
-  joseDt.mejorarHabilidades(pepe, river)
+  joseDt.mejorarHabilidades(ramon, boca)
 end
