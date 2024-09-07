@@ -1,3 +1,5 @@
+require 'set'
+
 class Persona
   def initialize(nombre, edad, correo_electronico)
     @nombre = nombre
@@ -7,94 +9,124 @@ class Persona
   end
   
   def to_s
-    "Nombre: #{@nombre}, Edad: #{@edad}, Correo: #{@correo_electronico}, Rol: #{@rol} "
+    "Nombre: #{@nombre}, Edad: #{@edad}, Correo: #{@correo_electronico}, Rol: #{@rol}"
   end
 
   def mostrar_rol
-    puts rol
+    puts @rol
   end
 
-  def mostrar_nombre()
-    puts nombre
+  def mostrar_nombre
+    puts @nombre
   end
 
   def agregarEquipo(equipo)
-    equipo.agregarEquipo(self)
+    equipo.agregarPersona(self)
   end
 end
 
-require 'set'
-
 class Jugador < Persona
-  def initialize(nombre, edad, email, rango, jugadores_fav)
-    super(nombre, edad, email)
+  attr_accessor :rango
+  attr_reader :nombre, :edad, :correo_electronico, :rol
+
+  def initialize(nombre, edad, correo_electronico, rango, jugadores_fav)
+    super(nombre, edad, correo_electronico)
     @rango = rango
-    @jugadores_fav = Set.new(jugadores_fav)  # Usamos un Set para asegurar jugadores únicos
+    @jugadores_fav = Set.new(jugadores_fav)
     @rol = "Jugador"
   end
 
   def to_s
-    "Nombre: #{@nombre}, Edad: #{@edad}, Email: #{@email}, Rol: #{@rol}, Rango: #{@rango}"
-  end
-
-  def get_rango
-    @rango
-  end
-
-  def set_rango(rango)
-    @rango = rango
-  end
-
-  def get_nombre
-    @nombre
-  end
-
-  def get_edad
-    @edad
-  end
-
-  def get_email
-    @email
+    "Nombre: #{@nombre}, Edad: #{@edad}, Correo: #{@correo_electronico}, Rol: #{@rol}, Rango: #{@rango}"
   end
 end
 
 class Entrenador < Persona
-  def initialize(nombre, edad, email, experiencia)
-    super(nombre, edad, email)
+  attr_reader :nombre, :edad, :correo_electronico, :rol
+  def initialize(nombre, edad, correo_electronico, experiencia)
+    super(nombre, edad, correo_electronico)
     @rol = "Entrenador"
     @experiencia = experiencia
   end
+  def to_s
+    "Nombre: #{@nombre}, Edad: #{@edad}, Correo: #{@correo_electronico}, Rol: #{@rol}, Experiencia: #{@experiencia}"
+  end
+
 
   def mejorarHabilidades(jugador, equipo)
-  end
-
-
-class equipo
-  
-
-
-
-
-
-
-
-pepe = Persona.new("pepe", 2, "holacomoandas","bombero")
-
-puts(pepe)
-puts "estoy escribiendo"
-
-
-=begin
-def generar_partidos(equipos) #ESTO VA DESPUES PARA GENERAR LOS PARTIDOS
-  partidos = []
-  n = equipos.length
-  (0...n).each do |i|
-    ((i + 1)...n).each do |j|
-      partidos << [equipos[i], equipos[j]]
+    datosJugador = equipo.traerDatosJugador(jugador)
+    if datosJugador && datosJugador == jugador.to_s
+      case jugador.rango
+      when "Bronce"
+        jugador.rango = "Plata"
+      when "Plata"
+        jugador.rango = "Oro"
+      else
+        puts "No existen más niveles"
+      end
     end
+    puts("Se la mejora fue ralizada: ", jugador)
   end
-  partidos
 end
-=end
+
+class Equipo
+  def initialize(nombreEquipo, logo)
+    @nombreEquipo = nombreEquipo
+    @logo = logo
+    @listaJugadores = []
+  end
+
+  def getNombreEquipo
+    @nombreEquipo
+  end
+
+  def getLogo
+    @logo
+  end
+
+  def to_s
+    "Nombre: #{@nombreEquipo}, Logo: #{@logo}"
+  end
+
+  def traerDatosJugador(jugador)
+    jugador.to_s
+  end
+
+  def agregarPersona(persona)
+    @listaJugadores << persona
+    puts persona
+    puts "#{persona.nombre} se agregó al equipo #{@nombreEquipo} con rol de #{persona.rol}"
+    puts "###########################"
+  end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  lista = []
+  #JUGADORES
+  persona1 = Jugador.new("pepe", 22, "Email1", "Plata", lista)
+  persona3 = Jugador.new("Ramon", 27, "Email2", "Bronce", lista)
+
+  #ENTRENADORES
+  persona2 = Entrenador.new("Mario", 55, "EmailDT1", 15)
+
+
+  #EQUIPOS
+  equipo1 = Equipo.new("River", "www.logoRiver.com")
+  equipo2 = Equipo.new("Boca", "www.logoBoca.com")
+  
+  
+  #ACCIONES
+  equipo1.agregarPersona(persona1)
+  equipo2.agregarPersona(persona3)
+  equipo1.agregarPersona(persona2)
+  persona2.mejorarHabilidades(persona1, equipo1) #DT MARIO MEJORA AL PEPE
+  
+  
+end
+
+
+
+
+
 
 
