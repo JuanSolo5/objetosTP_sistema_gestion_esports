@@ -106,6 +106,70 @@ class Equipo
   end
 end
 
+class Torneo
+  attr_accessor :nombre, :fecha, :equipos, :premio
+
+  def initialize(nombre, fecha)
+    @nombre = nombre
+    @fecha = fecha
+    @equipos = []
+    @premio = nil
+    
+  end
+
+  def agregar_equipo(equipo)
+    @equipos << equipo
+  end
+
+  def asignar_premio(premio)
+    @premio = premio
+  end
+
+  def to_s
+    "Torneo: #{@nombre}, Fecha: #{@fecha}, Premio: #{@premio}, Equipos: #{@equipos.map(&:nombreEquipo).join(', ')}"
+  end
+
+  def jugar()
+    puts("se esta jugando")
+    partida = Partida.new(equipos, 20, @self)
+    partida.generar_partidos(equipos)
+  end
+
+
+end
+
+class Partida
+  attr_accessor :equipo, :duracion, :resultado, :mvp, :torneo
+
+  def initialize(equipo, duracion, torneo)
+    @equipo = equipo
+    @duracion = duracion
+    @resultado = resultado
+    @mvp = mvp
+    @torneo = torneo
+  end
+
+  def to_s
+    "Partida entre #{equipo1.nombreEquipo} y #{equipo2.nombreEquipo}. Duración: #{@duracion} minutos. Resultado: #{@resultado}. MVP: #{@mvp.nombre}. Torneo: #{@torneo.nombre}"
+  end
+
+  def generar_partidos(equipos) 
+    self.to_s
+    partidos = []
+    n = equipos.length
+    (0...n).each do |i|
+      ((i + 1)...n).each do |j|
+        partidos << [equipos[i], equipos[j]]
+      end
+    end
+    partidos
+  end
+  
+  
+end
+
+
+
 if __FILE__ == $PROGRAM_NAME
   lista = []
   # Jugadores
@@ -127,4 +191,10 @@ if __FILE__ == $PROGRAM_NAME
   boca.agregarPersona(joseDt)
   marioDT.mejorarHabilidades(pepe, river) # DT Mario mejora a Pepe
   joseDt.mejorarHabilidades(ramon, boca)
+
+mundial = Torneo.new("Mundial", "14/06/22")
+mundial.agregar_equipo(river)
+mundial.agregar_equipo(boca)
+mundial.jugar()
+
 end
