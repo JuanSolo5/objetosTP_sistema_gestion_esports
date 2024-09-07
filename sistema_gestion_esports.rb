@@ -58,7 +58,19 @@ class Jugador < Persona
   end
 end
 
+class Entrenador < Persona
+  def initialize(nombre, edad, email, experiencia)
+    super(nombre, edad, email)
+    @rol = "Entrenador"
+    @experiencia = experiencia
+  end
 
+  def mejorarHabilidades(jugador, equipo)
+  end
+
+
+class equipo
+  
 
 
 
