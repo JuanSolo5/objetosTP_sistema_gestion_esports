@@ -154,7 +154,6 @@ class Partida
   end
 
   def generar_partidos(equipos) 
-    self.to_s
     partidos = []
     n = equipos.length
     (0...n).each do |i|
